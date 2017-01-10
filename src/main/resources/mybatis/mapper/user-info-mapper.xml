@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.wangmeng.wdw.dao.user.UserInfoDao">
+
+	<resultMap id="resultMap" type="com.wangmeng.wdw.dao.user.UserInfo">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="sex" column="sex" />
+	</resultMap>
+	
+	<sql id="allColumns">
+		id,name,sex
+	</sql>
+	
+	<select id="get" parameterType="long" resultMap="resultMap" resultType="com.wangmeng.wdw.dao.user.UserInfo">
+		SELECT
+			<include refid="allColumns"/>
+		FROM USER_INFO
+		WHERE id=#{id}	
+	</select>
+	
+	<!-- 查询 -->
+	<select id="getUsers" parameterType="com.wangmeng.wdw.dao.user.UserInfo" resultMap="resultMap" resultType="java.util.List">
+		SELECT
+		<include refid="allColumns"/>
+		FROM USER_INFO
+		<where>
+			<if test="id != null"> AND id = #{id}</if>
+			<if test="name != null"> AND name = #{name}</if>
+			<if test="sex != null"> AND sex = #{sex}</if>
+		 </where>
+	</select>
+
+</mapper>
